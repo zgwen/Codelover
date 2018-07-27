@@ -16,16 +16,68 @@ E:\V1R2\product\fpgadrive.c   1325
 fpgadrive.c 1325 1
 */
 
+/*
+此题极坑，“记录最多8条错误记录”完全是忽悠人的，程序在后台应该把所有记录全部记录下来，只是输出八条而已
+ 
+*/
 #include<iostream>
+#include<stdio.h>
+#include<string.h>
 using namespace std;
 
 struct err_log {
 	char name[17];
 	int line;
+	int cnt;
 };
 
 int main()
 {
-	
+	char str[1000];
+	char temp_name[17];
+	int temp_line;
+	int len;
+	int i,loop;
+	struct err_log log[100]={
+		0,0
+	}; 
+	loop = 0;
+	while(cin >> str >> temp_line)
+	{
+		
+		len = strlen(str);
+		//提取最大长度为16的文件名 
+		for(i=len-1;str[i] != '\\';i--);
+		if((len - i) > 16)
+			strcpy(temp_name,str+len-16);
+		else 
+			strcpy(temp_name,str+i+1);
+		//比较文件名和行号，如果相同，则合并
+		for(i=0;i<loop;i++)
+		{
+			if((log[i].line == temp_line) && (!strcmp(temp_name,log[i].name)))
+			{
+				log[i].cnt++;break;
+			}
+		}
+		//如果没找到相同的，就在后面增加一个 
+		if(i==loop)
+		{
+			strcpy(log[loop].name,temp_name);
+			log[loop].line = temp_line;
+			log[loop].cnt = 1;
+			loop = loop+1;
+		}
+		
+		
+	}
+	//打印最多八条记录，考虑少于八条的情况 
+	len = (loop > 8)?8:(loop);
+	for(i=loop-len;i<loop;i++)
+	{
+		if(log[i].cnt != 0)
+			cout << log[i].name << ' ' << log[i].line << ' ' << log[i].cnt << endl;
+	}
+		
 	
 }
