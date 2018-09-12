@@ -4,29 +4,20 @@
 */ 
 
 
-/*二维数组函数传递测试*/ 
+/*二字符串溢出的cpy情形*/ 
 
 #include <iostream>
-#include <process.h>
+#include <string.h> 
 using namespace std;
 
-void testp(int data[][3])     
-{
-	for(int i=0;i<3;i++)
-		for(int j=0;j<3;j++)
-			cout << data[i][j]<<' ';
-	
-}
- 
 
 int main()
 {
-	int data[3][3];
-	cout << "输入九个数:" << endl;
-	for(int i=0;i<3;i++)
-		for(int j=0;j<3;j++)
-			cin >> data[i][j];
-	cout << "输出:" << endl;
-	testp(data);
-	system("pause"); 
+	char str1[10];
+	char str2[10];
+	
+	sprintf(str1,"1234567890");
+	cout << "str1 len:" << strlen(str1) <<endl;
+	strcpy(str2,str1);
+	cout << str2;
  } 
